@@ -8,9 +8,6 @@ pipeline {
             steps {
                 script {
                     app = docker.build("prakhars1406/flask-docker")
-                    app.inside {
-                        sh 'echo $(curl localhost:5000)'
-                    }
                 }
             }
         }
