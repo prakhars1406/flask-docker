@@ -19,7 +19,6 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker_hub_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
                         sh 'docker login -u ${USERNAME} -p ${USERPASS} registry.hub.docker.com'
-                        sh "docker build -f $dockerfile $buildArgs $context"
                         tags.each {
                             sh "docker push ${env.BUILD_NUMBER}"
                             sh "docker push latest"
