@@ -16,10 +16,12 @@ pipeline {
                 branch 'main'
             }
             steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
-                        app.push("${env.BUILD_NUMBER}")
-                        app.push("latest")
+                withCredentials([usernamePassword(credentialsId: 'docker_hub_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
+                    sh 'docker login -u ${USERNAME} -p ${USERPASS} registry.hub.docker.com'
+                    sh "docker build -f $dockerfile $buildArgs $context"
+                    tags.each {
+                        sh "docker push ${env.BUILD_NUMBER}"
+                        sh "docker push latest"
                     }
                 }
             }
