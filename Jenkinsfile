@@ -19,7 +19,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker_hub_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
                         sh 'docker login -u ${USERNAME} -p ${USERPASS} registry.hub.docker.com'
-                        sh "docker push registry.hub.docker.com/sharmaprakhar/flask-docker:${env.BUILD_NUMBER}"
+                        sh "docker push registry.hub.docker.com/sharmaprakhar/flask-docker:latest"
                     }
                 }
             }
